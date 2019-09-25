@@ -12,9 +12,9 @@ class RFCIndex{
         this.hostName = hostName;
     }
 }
-public class Server extends Thread{
+public class RFCServer extends Thread{
     LinkedList<RFCIndex> RFCIndexList;
-    Server(){
+    RFCServer(){
         RFCIndexList = new LinkedList<>();
     }
     public static void main(String args[]){

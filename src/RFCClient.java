@@ -6,6 +6,6 @@ public class RFCClient extends Thread{
 
     @Override
     public void run() {
-
+        System.out.println("Client has been started");
     }
 }
