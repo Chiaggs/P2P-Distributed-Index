@@ -1,0 +1,2 @@
+REG 1 RFCServerPort
+REG 0 RFCServerPort
