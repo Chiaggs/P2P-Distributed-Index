@@ -1,5 +1,3 @@
-import com.sun.security.ntlm.Client;
-
 import java.net.Socket;
 import java.util.Date;
 import java.util.LinkedList;
