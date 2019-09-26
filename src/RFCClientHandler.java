@@ -76,8 +76,8 @@ public class RFCClientHandler extends Thread {
 
             } else if (reqStringArr[0].trim().equals("PQQ") && reqStringArr[1].trim().equals("1")) {
                 List<ClientInfo> transferList = new ArrayList<>();
-                for(ClientInfo ci : peerList) {
-                    if(ci.flag == true) {
+                for (ClientInfo ci : peerList) {
+                    if (ci.flag == true) {
                         transferList.add(ci);
                     }
                 }
