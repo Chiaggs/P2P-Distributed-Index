@@ -1,6 +1,11 @@
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 public class RFCClient extends Thread {
@@ -87,7 +92,12 @@ public class RFCClient extends Thread {
 
         DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
         String responseMessage = inFromRS.readUTF();
-        System.out.println("Response received from server is: " + responseMessage);
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ClientInfo>>() {
+        }.getType();
+        List<ClientInfo> clientInfo = gson.fromJson(responseMessage, type);
+        System.out.println("Converted to List: " + clientInfo);
     }
 
     public void keepalive() throws Exception {
