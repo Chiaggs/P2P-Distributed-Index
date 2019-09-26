@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 
-class RFCIndex{
+class RFCIndex {
     int RFCNumber;
     int RFCTitle;
     String hostName;
@@ -12,12 +12,15 @@ class RFCIndex{
         this.hostName = hostName;
     }
 }
-public class RFCServer extends Thread{
+
+public class RFCServer extends Thread {
     LinkedList<RFCIndex> RFCIndexList;
-    RFCServer(){
+
+    RFCServer() {
         RFCIndexList = new LinkedList<>();
     }
-    public static void main(String args[]){
+
+    public static void main(String[] args) {
         System.out.println("This is from server");
     }
 }
