@@ -1,3 +1,4 @@
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -43,6 +44,10 @@ public class RFCClient extends Thread {
         DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
         outToRS.writeUTF(requestMessage);
         System.out.println("Request message successfully sent");
+
+        DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
+        String responseMessage = inFromRS.readUTF();
+        System.out.println("Response received from server is: " + responseMessage);
     }
 
     public void unregister() throws Exception {
@@ -56,5 +61,9 @@ public class RFCClient extends Thread {
         DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
         outToRS.writeUTF(requestMessage);
         System.out.println("Request message successfully sent");
+
+        DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
+        String responseMessage = inFromRS.readUTF();
+        System.out.println("Response received from server is: " + responseMessage);
     }
 }
