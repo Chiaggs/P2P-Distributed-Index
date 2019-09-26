@@ -1,8 +1,8 @@
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-import java.io.DataOutputStream;
 
-public class RFCClient extends Thread{
+public class RFCClient extends Thread {
     int portNumber;
 
     RFCClient(int portNumber) {
@@ -13,26 +13,26 @@ public class RFCClient extends Thread{
     public void run() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Client has been started");
-        while(true){
-            try{
+        while (true) {
+            try {
                 System.out.println("r: Register \nd: Deregister \ne: Exit");
                 String input = sc.next();
-                if(input.equals("r")){
+                if (input.equals("r")) {
                     register();
-                }else if(input.equals("d")){
+                } else if (input.equals("d")) {
                     unregister();
-                }else if(input.equals("e")){
+                } else if (input.equals("e")) {
                     break;
-                }else {
+                } else {
                     System.out.println("Wrong Input!");
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Exception Occured: " + e);
             }
         }
     }
 
-    public void register() throws Exception{
+    public void register() throws Exception {
         System.out.println("Enter IP Address of Remote Server: ");
         Scanner sc = new Scanner(System.in);
         String rsIP = sc.next();
@@ -40,12 +40,12 @@ public class RFCClient extends Thread{
         Socket s = new Socket(rsIP, 65423);
         System.out.println("Socket created, sending outputstream");
 
-        DataOutputStream outToRS=new DataOutputStream(s.getOutputStream());
+        DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
         outToRS.writeUTF(requestMessage);
         System.out.println("Request message successfully sent");
     }
 
-    public void unregister() throws Exception{
+    public void unregister() throws Exception {
         System.out.println("Enter IP Address of Remote Server: ");
         Scanner sc = new Scanner(System.in);
         String rsIP = sc.next();
@@ -53,7 +53,7 @@ public class RFCClient extends Thread{
         Socket s = new Socket(rsIP, 65423);
         System.out.println("Socket created, sending outputstream");
 
-        DataOutputStream outToRS=new DataOutputStream(s.getOutputStream());
+        DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
         outToRS.writeUTF(requestMessage);
         System.out.println("Request message successfully sent");
     }

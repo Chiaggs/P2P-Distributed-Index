@@ -5,24 +5,8 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class RFCClientHandler extends Thread {
-    Socket clientSocket = null;
     public static Integer cookie = 0;
-
-    public static class ClientInfo {
-        String hostName;
-        Integer cookie;
-        Boolean flag;
-        Integer ttl;
-        Integer rfcServerPort;
-        Integer regCount;
-        Date recentRegDateTime;
-
-        public ClientInfo() {
-            this.ttl = 7200;
-            this.regCount = 0;
-        }
-    }
-
+    Socket clientSocket = null;
     LinkedList<ClientInfo> peerList = new LinkedList<>();
 
     public RFCClientHandler(Socket clientSocket) {
@@ -93,6 +77,21 @@ public class RFCClientHandler extends Thread {
             e.printStackTrace();
         }
 
+    }
+
+    public static class ClientInfo {
+        String hostName;
+        Integer cookie;
+        Boolean flag;
+        Integer ttl;
+        Integer rfcServerPort;
+        Integer regCount;
+        Date recentRegDateTime;
+
+        public ClientInfo() {
+            this.ttl = 7200;
+            this.regCount = 0;
+        }
     }
 
 }
