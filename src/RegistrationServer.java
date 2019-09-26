@@ -19,7 +19,7 @@ public class RegistrationServer {
         try {
             while (true) {
                 rsSocket = rsServerSocket.accept();
-                System.out.print("Connected with Peer!" + rsSocket.getInetAddress() + rsSocket.getPort());
+                System.out.print("\nConnected with Peer!" + rsSocket.getInetAddress() + "  " + rsSocket.getPort());
                 RFCClientHandler rfcClientHandler = new RFCClientHandler(rsSocket);
                 rfcClientHandler.start();
 

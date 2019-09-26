@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 public class RFCClientHandler extends Thread {
     public static Integer cookie = 0;
+    static LinkedList<ClientInfo> peerList = new LinkedList<>();
     Socket clientSocket = null;
-    LinkedList<ClientInfo> peerList = new LinkedList<>();
 
     public RFCClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -27,6 +27,8 @@ public class RFCClientHandler extends Thread {
             clientObj.rfcServerPort = Integer.parseInt(reqStringArr[2].trim());
             clientObj.regCount += 1;
             clientObj.recentRegDateTime = new Date(System.currentTimeMillis());
+            System.out.print("\n");
+            //System.out.print(clientObj);
 
             Boolean existingClient = false;
             if (reqStringArr[0].trim().equals("REG") && reqStringArr[1].trim().equals("1")) {
@@ -36,6 +38,7 @@ public class RFCClientHandler extends Thread {
                         ci.cookie = clientObj.cookie;
                         ci.ttl = clientObj.ttl;
                         ci.regCount += 1;
+                        ci.recentRegDateTime = clientObj.recentRegDateTime;
                         existingClient = true;
                         break;
                     }
@@ -46,13 +49,13 @@ public class RFCClientHandler extends Thread {
                 }
                 //responseMessage="RRG "+"OK"+"************"+"Registered";
                 DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
-                responseToClient.writeUTF("RRG " + "OK" + "************" + "Registered");
+                responseToClient.writeUTF("RRG " + "OK " + "Registered");
 
             } else if (reqStringArr[0].trim().equals("REG") && reqStringArr[1].trim().equals("0")) {
                 for (ClientInfo ci : peerList) {
                     if (ci.hostName.equals(clientObj.hostName) && ci.rfcServerPort.equals(clientObj.rfcServerPort)) {
                         ci.flag = false;
-                        ci.cookie = clientObj.cookie;
+                        //ci.cookie = clientObj.cookie;
                         ci.ttl = 0;
                         //ci.regCount+=1;
                         existingClient = true;
@@ -65,10 +68,10 @@ public class RFCClientHandler extends Thread {
                     System.out.print("Client is not registered! Cannot Unregister!");
                 }
                 DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
-                responseToClient.writeUTF("\"RRG \"+\"EX\"+\"************\"+\"Exit\"");
+                responseToClient.writeUTF("URG " + "OK " + "UnRegistered");
 
             }
-            System.out.print("Peer List:\n");
+            System.out.print("\nPeer List:\n");
             for (ClientInfo ci : peerList) {
                 System.out.print(ci.toString());
             }
@@ -79,7 +82,7 @@ public class RFCClientHandler extends Thread {
 
     }
 
-    public static class ClientInfo {
+    static class ClientInfo {
         String hostName;
         Integer cookie;
         Boolean flag;
@@ -91,6 +94,19 @@ public class RFCClientHandler extends Thread {
         public ClientInfo() {
             this.ttl = 7200;
             this.regCount = 0;
+        }
+
+        @Override
+        public String toString() {
+            return "ClientInfo{" +
+                    "hostName='" + hostName + '\'' +
+                    ", cookie=" + cookie +
+                    ", flag=" + flag +
+                    ", ttl=" + ttl +
+                    ", rfcServerPort=" + rfcServerPort +
+                    ", regCount=" + regCount +
+                    ", recentRegDateTime=" + recentRegDateTime +
+                    '}';
         }
     }
 
