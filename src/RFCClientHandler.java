@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
@@ -35,7 +37,7 @@ public class RFCClientHandler extends Thread {
                 for (ClientInfo ci : peerList) {
                     if (ci.hostName.equals(clientObj.hostName) && ci.rfcServerPort.equals(clientObj.rfcServerPort)) {
                         ci.flag = true;
-                        ci.cookie = clientObj.cookie;
+                        //ci.cookie = clientObj.cookie;
                         ci.ttl = clientObj.ttl;
                         ci.regCount += 1;
                         ci.recentRegDateTime = clientObj.recentRegDateTime;
@@ -70,6 +72,25 @@ public class RFCClientHandler extends Thread {
                 DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
                 responseToClient.writeUTF("URG " + "OK " + "UnRegistered");
 
+            } else if (reqStringArr[0].trim().equals("PQQ") && reqStringArr[1].trim().equals("1")) {
+                String peerLitString = new Gson().toJson(peerList);
+                DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
+                responseToClient.writeUTF(peerLitString);
+
+            } else if (reqStringArr[0].trim().equals("KAL") && reqStringArr[1].trim().equals("1")) {
+                for (ClientInfo ci : peerList) {
+                    if (ci.hostName.equals(clientObj.hostName) && ci.rfcServerPort.equals(clientObj.rfcServerPort)) {
+                        ci.flag = true;
+                        //ci.cookie = clientObj.cookie;
+                        ci.ttl = clientObj.ttl;
+                        //ci.regCount += 1;
+                        ci.recentRegDateTime = clientObj.recentRegDateTime;
+                        break;
+                    }
+                }
+                DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
+                responseToClient.writeUTF("KAL " + "OK " + "Extended to 7200");
+
             }
             System.out.print("\nPeer List:\n");
             for (ClientInfo ci : peerList) {
@@ -80,34 +101,6 @@ public class RFCClientHandler extends Thread {
             e.printStackTrace();
         }
 
-    }
-
-    static class ClientInfo {
-        String hostName;
-        Integer cookie;
-        Boolean flag;
-        Integer ttl;
-        Integer rfcServerPort;
-        Integer regCount;
-        Date recentRegDateTime;
-
-        public ClientInfo() {
-            this.ttl = 7200;
-            this.regCount = 0;
-        }
-
-        @Override
-        public String toString() {
-            return "ClientInfo{" +
-                    "hostName='" + hostName + '\'' +
-                    ", cookie=" + cookie +
-                    ", flag=" + flag +
-                    ", ttl=" + ttl +
-                    ", rfcServerPort=" + rfcServerPort +
-                    ", regCount=" + regCount +
-                    ", recentRegDateTime=" + recentRegDateTime +
-                    '}';
-        }
     }
 
 }

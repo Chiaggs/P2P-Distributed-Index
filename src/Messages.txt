@@ -1,2 +1,19 @@
 REG 1 RFCServerPort
 REG 0 RFCServerPort
+PQQ 1 RFCServerPort
+KAL 1 RFCServerPort
+
+// create a new Gson instance
+ Gson gson = new Gson();
+ // convert your list to json
+ String jsonCartList = gson.toJson(cartList);
+ // print your generated json
+ System.out.println("jsonCartList: " + jsonCartList);
+
+Converting back from JSON string to your Java object
+ // Converts JSON string into a List of Product object
+ Type type = new TypeToken<List<Product>>(){}.getType();
+ List<Product> prodList = gson.fromJson(jsonCartList, type);
+
+ // print your List<Product>
+ System.out.println("prodList: " + prodList);
