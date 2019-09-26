@@ -3,8 +3,10 @@ import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 public class RFCClientHandler extends Thread {
     public static Integer cookie = 0;
@@ -73,7 +75,13 @@ public class RFCClientHandler extends Thread {
                 responseToClient.writeUTF("URG " + "OK " + "UnRegistered");
 
             } else if (reqStringArr[0].trim().equals("PQQ") && reqStringArr[1].trim().equals("1")) {
-                String peerLitString = new Gson().toJson(peerList);
+                List<ClientInfo> transferList = new ArrayList<>();
+                for(ClientInfo ci : peerList) {
+                    if(ci.flag == true) {
+                        transferList.add(ci);
+                    }
+                }
+                String peerLitString = new Gson().toJson(transferList);
                 DataOutputStream responseToClient = new DataOutputStream(clientSocket.getOutputStream());
                 responseToClient.writeUTF(peerLitString);
 
