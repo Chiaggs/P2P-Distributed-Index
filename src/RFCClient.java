@@ -26,7 +26,7 @@ public class RFCClient extends Thread {
         System.out.println("Client has been started");
         while (true) {
             try {
-                System.out.println("r: Register \nd: Deregister \np: PQuery \ne: KeepAlive\ne: Exit");
+                System.out.println("r: Register \nd: Deregister \np: PQuery \ne: KeepAlive\nf: RFCTransfer\ne: Exit");
                 String input = sc.next();
                 if (input.equals("r")) {
                     register();
@@ -38,7 +38,9 @@ public class RFCClient extends Thread {
                     pquery();
                 } else if (input.equals("k")) {
                     keepalive();
-                } else {
+                } else if (input.equals("f")) {
+                    rfcTransfer();
+                }else {
                     System.out.println("Wrong Input!");
                 }
             } catch (Exception e) {
@@ -118,5 +120,19 @@ public class RFCClient extends Thread {
         DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
         String responseMessage = inFromRS.readUTF();
         System.out.println("Response received from server is: " + responseMessage);
+    }
+
+    public void rfcTransfer() throws Exception {
+
+        //Socket s = new Socket(rsIP, 65423);
+        System.out.println("Socket created, sending outputstream");
+
+        DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
+        //outToRS.writeUTF(requestMessage);
+        System.out.println("Request message successfully sent");
+
+        //DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
+        //String responseMessage = inFromRS.readUTF();
+        //System.out.println("Response received from server is: " + responseMessage);
     }
 }
