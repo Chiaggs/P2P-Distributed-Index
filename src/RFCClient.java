@@ -5,17 +5,14 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class RFCClient extends Thread {
     static final Integer N = 60;
     int portNumber;
     int cookie;
     static ArrayList<ClientInfo> peerList = new ArrayList<>();
-    static LinkedList<RFCIndex> RFCIndexList = new LinkedList<>();
+    static Set<RFCIndex> RFCIndexList = new HashSet<>();
     static Boolean[] RFCIndexCheck = new Boolean[N];
 
 
@@ -159,21 +156,34 @@ public class RFCClient extends Thread {
 
     public void rfcTransfer() throws Exception {
 
+        String ipaddr = InetAddress.getLocalHost().toString();
+        String []temp = ipaddr.split("/");
         for (ClientInfo clientInfo : peerList){
-            // send RFC Query message to client
-            Socket s = new Socket(clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
-            DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
-            InetAddress ip = InetAddress.getLocalHost();
-            String hostname = ip.getHostName();
-            String requestMessage = "GET RFC-Index P2P-DI/1.0\n" +
-                    "Host: "+hostname+"\n" +
-                    "OS: "+System.getProperty("os.name");
-            outToPeer.writeUTF(requestMessage);
-            System.out.println("RFC Query Command successfully sent! : " + requestMessage);
-            DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
-            String responseMessage = inFromPeer.readUTF();
-            System.out.println("Response received from Peer is: " + responseMessage);
-            // send getRFC message to client for a particular RFC
+            if(!temp[1].equals(clientInfo.hostName.substring(1)) && portNumber != clientInfo.rfcServerPort) {
+                Socket s = new Socket(clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
+                DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
+                InetAddress ip = InetAddress.getLocalHost();
+                String hostname = ip.getHostName();
+                String requestMessage = "GET RFC-Index P2P-DI/1.0\n" +
+                        "Host: "+hostname+"\n" +
+                        "OS: "+System.getProperty("os.name");
+                outToPeer.writeUTF(requestMessage);
+                System.out.println("RFC Query Command successfully sent! : " + requestMessage);
+                DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
+                String responseMessage = inFromPeer.readUTF();
+                System.out.println("Response received from Peer is: " + responseMessage);
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<RFCIndex>>() {}.getType();
+                Set<RFCIndex> rfcIndex = gson.fromJson(responseMessage, type);
+                System.out.println("Converted to List: " + rfcIndex);
+
+                RFCIndexList.addAll(rfcIndex);
+            }
+
         }
+        System.out.print(RFCIndexList);
+
+
     }
 }
