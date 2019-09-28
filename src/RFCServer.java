@@ -2,11 +2,11 @@ import java.util.LinkedList;
 
 class RFCIndex {
     int RFCNumber;
-    int RFCTitle;
+    String RFCTitle;
     String hostName;
     int TTL;
 
-    public RFCIndex(int RFCNumber, int RFCTitle, String hostName) {
+    public RFCIndex(int RFCNumber, String RFCTitle, String hostName) {
         this.RFCNumber = RFCNumber;
         this.RFCTitle = RFCTitle;
         this.hostName = hostName;

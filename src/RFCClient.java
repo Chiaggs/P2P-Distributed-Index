@@ -64,7 +64,7 @@ public class RFCClient extends Thread {
                 temp = new File(i +".txt");
                 if(temp.exists()) {
                     RFCIndexCheck[i] = true;
-                    //RFCIndexList.add(new RFCIndex(i,));
+                    RFCIndexList.add(new RFCIndex(i,"Random",InetAddress.getLocalHost().getHostName()));
                 }
                 else {
                     RFCIndexCheck[i] = false;
