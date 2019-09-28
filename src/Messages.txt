@@ -3,6 +3,15 @@ REG 0 RFCServerPort
 PQQ 1 RFCServerPort
 KAL 1 RFCServerPort
 
+GET RFC-Index P2P-DI/1.0
+Host: IPAddr
+OS: OSName
+
+GET RFC RFC_Number P2P-DI/1.0
+Host: IPAddr
+OS: OSName
+
+
 // create a new Gson instance
  Gson gson = new Gson();
  // convert your list to json
