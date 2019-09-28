@@ -158,7 +158,7 @@ public class RFCClient extends Thread {
         //outToRS.writeUTF(requestMessage);
         System.out.println("Request message successfully sent");
 
-        DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
+        //DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
         //String responseMessage = inFromRS.readUTF();
         //System.out.println("Response received from server is: " + responseMessage);
     }
