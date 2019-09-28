@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Objects;
 
 class RFCIndex {
     int RFCNumber;
@@ -15,6 +16,21 @@ class RFCIndex {
         this.RFCTitle = RFCTitle;
         this.hostName = hostName;
         this.TTL = 7200;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RFCIndex rfcIndex = (RFCIndex) o;
+        return RFCNumber == rfcIndex.RFCNumber &&
+                Objects.equals(RFCTitle, rfcIndex.RFCTitle) &&
+                Objects.equals(hostName, rfcIndex.hostName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(RFCNumber, RFCTitle, hostName);
     }
 
     @Override
