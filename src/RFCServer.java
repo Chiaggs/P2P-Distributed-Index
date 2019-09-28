@@ -10,6 +10,7 @@ class RFCIndex {
         this.RFCNumber = RFCNumber;
         this.RFCTitle = RFCTitle;
         this.hostName = hostName;
+        this.TTL = 7200;
     }
 }
 
