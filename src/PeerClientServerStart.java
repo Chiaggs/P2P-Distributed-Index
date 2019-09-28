@@ -9,6 +9,7 @@ public class PeerClientServerStart extends Thread {
             int portNumber = Integer.parseInt(sc.next());
             RFCClient rfcCLient = new RFCClient(portNumber);
             rfcCLient.start();
+
         } catch (Exception e) {
             System.out.println("Please enter integer values for port number or debug error below");
             System.out.println("Error: " + e);
