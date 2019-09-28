@@ -69,7 +69,9 @@ public class RFCServer extends Thread {
                 System.out.print("\nConnected with Peer!" + RFCSocket.getInetAddress() + "  " + RFCSocket.getPort());
                 DataInputStream dis = new DataInputStream(RFCSocket.getInputStream());
                 String reqString = dis.readUTF();
-                String[] reqStringArr = reqString.split(" ");
+                System.out.println(reqString);
+                String[] reqStringArr = reqString.split("\n");
+                System.out.println(reqStringArr[0]);
             }
 
         } catch (Exception e) {
