@@ -5,12 +5,15 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class RFCClient extends Thread {
     int portNumber;
     int cookie;
+    static ArrayList<ClientInfo> peerList = new ArrayList<>();
 
     RFCClient(int portNumber) {
         this.portNumber = portNumber;
@@ -96,8 +99,8 @@ public class RFCClient extends Thread {
         Gson gson = new Gson();
         Type type = new TypeToken<List<ClientInfo>>() {
         }.getType();
-        List<ClientInfo> clientInfo = gson.fromJson(responseMessage, type);
-        System.out.println("Converted to List: " + clientInfo);
+        peerList = gson.fromJson(responseMessage, type);
+        System.out.println("Converted to List: " + peerList);
     }
 
     public void keepalive() throws Exception {
