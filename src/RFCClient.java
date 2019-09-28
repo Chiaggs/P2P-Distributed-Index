@@ -1,10 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -63,8 +60,9 @@ public class RFCClient extends Thread {
             try {
                 temp = new File(i +".txt");
                 if(temp.exists()) {
+                    BufferedReader br1=new BufferedReader(new FileReader(temp));
                     RFCIndexCheck[i] = true;
-                    RFCIndexList.add(new RFCIndex(i,"Random",InetAddress.getLocalHost().getHostName()));
+                    RFCIndexList.add(new RFCIndex(i,br1.readLine().trim(),InetAddress.getLocalHost().getHostName()));
                 }
                 else {
                     RFCIndexCheck[i] = false;
@@ -75,6 +73,8 @@ public class RFCClient extends Thread {
                 e.printStackTrace();
             }
         }
+        System.out.print(RFCIndexCheck);
+        System.out.print(RFCIndexList);
     }
 
     public void register() throws Exception {

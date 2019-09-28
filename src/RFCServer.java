@@ -6,6 +6,16 @@ class RFCIndex {
     String hostName;
     int TTL;
 
+    @Override
+    public String toString() {
+        return "RFCIndex{" +
+                "RFCNumber=" + RFCNumber +
+                ", RFCTitle='" + RFCTitle + '\'' +
+                ", hostName='" + hostName + '\'' +
+                ", TTL=" + TTL +
+                '}';
+    }
+
     public RFCIndex(int RFCNumber, String RFCTitle, String hostName) {
         this.RFCNumber = RFCNumber;
         this.RFCTitle = RFCTitle;
