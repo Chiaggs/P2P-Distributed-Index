@@ -1,3 +1,7 @@
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -6,6 +10,13 @@ class RFCIndex {
     String RFCTitle;
     String hostName;
     int TTL;
+
+    public RFCIndex(int RFCNumber, String RFCTitle, String hostName) {
+        this.RFCNumber = RFCNumber;
+        this.RFCTitle = RFCTitle;
+        this.hostName = hostName;
+        this.TTL = 7200;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -31,18 +42,12 @@ class RFCIndex {
                 ", TTL=" + TTL +
                 '}';
     }
-
-    public RFCIndex(int RFCNumber, String RFCTitle, String hostName) {
-        this.RFCNumber = RFCNumber;
-        this.RFCTitle = RFCTitle;
-        this.hostName = hostName;
-        this.TTL = 7200;
-    }
 }
 
 public class RFCServer extends Thread {
     LinkedList<RFCIndex> RFCIndexList;
     int portNumber;
+
     RFCServer(int portNumber) {
         RFCIndexList = new LinkedList<>();
         this.portNumber = portNumber;
@@ -50,6 +55,28 @@ public class RFCServer extends Thread {
 
     @Override
     public void run() {
+        ServerSocket RFCServerSocket = null;
+        Socket RFCSocket = null;
+        try {
+            RFCServerSocket = new ServerSocket(portNumber, 5);
+        } catch (IOException e) {
+            System.out.print("Client Server socket could not be started!");
+            e.printStackTrace();
+        }
+        try {
+            while (true) {
+                RFCSocket = RFCServerSocket.accept();
+                System.out.print("\nConnected with Peer!" + RFCSocket.getInetAddress() + "  " + RFCSocket.getPort());
+                DataInputStream dis = new DataInputStream(RFCSocket.getInputStream());
+                String reqString = dis.readUTF();
+                System.out.println(reqString);
+                String[] reqStringArr = reqString.split("\n");
+                System.out.println(reqStringArr[0]);
+            }
 
+        } catch (Exception e) {
+            System.out.print("Client Server Error while accepting clients!");
+            e.printStackTrace();
+        }
     }
 }
