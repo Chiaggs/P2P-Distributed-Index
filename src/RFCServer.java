@@ -26,12 +26,14 @@ class RFCIndex {
 
 public class RFCServer extends Thread {
     LinkedList<RFCIndex> RFCIndexList;
-
-    RFCServer() {
+    int portNumber;
+    RFCServer(int portNumber) {
         RFCIndexList = new LinkedList<>();
+        this.portNumber = portNumber;
     }
 
-    public static void main(String[] args) {
-        System.out.println("This is from server");
+    @Override
+    public void run() {
+
     }
 }

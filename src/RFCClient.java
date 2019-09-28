@@ -27,6 +27,8 @@ public class RFCClient extends Thread {
     @Override
     public void run() {
         initializeRFCIndex();
+        RFCServer server = new RFCServer(portNumber);
+        server.start();
         Scanner sc = new Scanner(System.in);
         System.out.println("Client has been started");
         while (true) {
