@@ -184,6 +184,30 @@ public class RFCClient extends Thread {
         }
         System.out.print(RFCIndexList);
 
+        for(int i=0; i<N; i++) {
+            if(!RFCIndexCheck[i]) {
+                for(RFCIndex index : RFCIndexList) {
+                    if(index.RFCNumber == i) {
+
+                       /* Socket s = new Socket(index.clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
+                        DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
+                        InetAddress ip = InetAddress.getLocalHost();
+                        String hostname = ip.getHostName();
+                        String requestMessage = "GET RFC-Index P2P-DI/1.0\n" +
+                                "Host: "+hostname+"\n" +
+                                "OS: "+System.getProperty("os.name");
+                        outToPeer.writeUTF(requestMessage);
+                        System.out.println("RFC Query Command successfully sent! : " + requestMessage);
+                        DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
+                        String responseMessage = inFromPeer.readUTF();
+                        System.out.println("Response received from Peer is: " + responseMessage);*/
+
+
+                    }
+                }
+            }
+        }
+
 
     }
 }
