@@ -60,11 +60,13 @@ public class RFCClient extends Thread {
         File temp = null;
         for(int i=0; i<N; i++) {
             try {
-                temp = new File(i +".txt");
+                temp = new File("src/"+i+".txt");
+                //for(String fileNames : temp.list()) System.out.println(fileNames);
+                //System.out.print(String.valueOf(i)+".txt");
                 if(temp.exists()) {
                     BufferedReader br1=new BufferedReader(new FileReader(temp));
                     RFCIndexCheck[i] = true;
-                    RFCIndexList.add(new RFCIndex(i,br1.readLine().trim(),InetAddress.getLocalHost().getHostName()));
+                    RFCIndexList.add(new RFCIndex(i,br1.readLine().trim(),InetAddress.getLocalHost().toString()+"/"+portNumber));
                 }
                 else {
                     RFCIndexCheck[i] = false;
@@ -75,7 +77,10 @@ public class RFCClient extends Thread {
                 e.printStackTrace();
             }
         }
-        System.out.print(RFCIndexCheck);
+        for(int i=0; i<N;i++) {
+            System.out.print(RFCIndexCheck[i]);
+        }
+        System.out.print("\n");
         System.out.print(RFCIndexList);
     }
 
