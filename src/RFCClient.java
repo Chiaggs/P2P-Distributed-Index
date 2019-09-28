@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -151,15 +152,21 @@ public class RFCClient extends Thread {
 
     public void rfcTransfer() throws Exception {
 
-        //Socket s = new Socket(rsIP, 65423);
-        System.out.println("Socket created, sending outputstream");
-
-        //DataOutputStream outToRS = new DataOutputStream(s.getOutputStream());
-        //outToRS.writeUTF(requestMessage);
-        System.out.println("Request message successfully sent");
-
-        //DataInputStream inFromRS = new DataInputStream((s.getInputStream()));
-        //String responseMessage = inFromRS.readUTF();
-        //System.out.println("Response received from server is: " + responseMessage);
+        for (ClientInfo clientInfo : peerList){
+            // send RFC Query message to client
+            Socket s = new Socket(clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
+            DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
+            InetAddress ip = InetAddress.getLocalHost();
+            String hostname = ip.getHostName();
+            String requestMessage = "GET RFC-Index P2P-DI/1.0\n" +
+                    "Host: "+hostname+"\n" +
+                    "OS: "+System.getProperty("os.name");
+            outToPeer.writeUTF(requestMessage);
+            System.out.println("RFC Query Command successfully sent! : " + requestMessage);
+            DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
+            String responseMessage = inFromPeer.readUTF();
+            System.out.println("Response received from Peer is: " + responseMessage);
+            // send getRFC message to client for a particular RFC
+        }
     }
 }
