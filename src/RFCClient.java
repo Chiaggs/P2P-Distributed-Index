@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.*;
 
 public class RFCClient extends Thread {
-    public static final Integer N = 60;
+    public static final Integer N = 2;
     public int portNumber;
     public int cookie;
     public static ArrayList<ClientInfo> peerList = new ArrayList<>();
@@ -217,8 +217,12 @@ public class RFCClient extends Thread {
                         writer.write(responseMessage);
                         writer.close();
 
+                        RFCIndexCheck[i] = true;
+                        break;
+
                     }
                 }
+
             }
         }
 
