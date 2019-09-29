@@ -199,11 +199,23 @@ public class RFCClient extends Thread {
                                 "Host: "+hostname+"\n" +
                                 "OS: "+System.getProperty("os.name");
                         outToPeer.writeUTF(requestMessage);
-                        System.out.println("RFC Query Command successfully sent! : " + requestMessage);
+                        System.out.println("RFC Query Command successfully sent! : \n" + requestMessage);
                         DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
                         String responseMessage = inFromPeer.readUTF();
                         System.out.println("RFC downloaded from Peer is: " + responseMessage);
 
+
+                        File file = new File(String.valueOf(i)+".txt");
+                        if (file.createNewFile())
+                        {
+                            System.out.println("\nRFC saved to disk!");
+                        } else
+                            {
+                            System.out.println("\nFailure while saving RFC to disk!");
+                        }
+                        FileWriter writer = new FileWriter(file);
+                        writer.write(responseMessage);
+                        writer.close();
 
                     }
                 }
