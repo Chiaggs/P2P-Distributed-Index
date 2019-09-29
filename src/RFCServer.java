@@ -1,12 +1,15 @@
 import com.google.gson.Gson;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 class RFCIndex {
     int RFCNumber;
@@ -81,6 +84,30 @@ public class RFCServer extends Thread {
                     String RFCIndexString = new Gson().toJson(client.RFCIndexList);
                     DataOutputStream responseToClient = new DataOutputStream(RFCSocket.getOutputStream());
                     responseToClient.writeUTF(RFCIndexString);
+                }
+                else if(reqStringArr[0].contains("GET RFC")){
+                    String RFC_No = reqStringArr[0].split(" ")[2];
+                    System.out.print("Server would be sending file No: " + RFC_No);
+                    File temp = new File("src/"+RFC_No+".txt");
+                    if(temp.exists()) {
+                        BufferedReader br1=new BufferedReader(new FileReader(temp));
+                        StringBuilder contentBuilder = new StringBuilder();
+                        try (Stream<String> stream = Files.lines( Paths.get("src/"+RFC_No+".txt"), StandardCharsets.UTF_8))
+                        {
+                            stream.forEach(s -> contentBuilder.append(s).append("\n"));
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        String res_msg = contentBuilder.toString();
+                        System.out.print("Returning this: " + res_msg);
+                        DataOutputStream responseToClient = new DataOutputStream(RFCSocket.getOutputStream());
+                        responseToClient.writeUTF(res_msg);
+                    }
+                    else{
+                        System.out.println("File does not exist");
+                    }
                 }
             }
 
