@@ -160,6 +160,7 @@ public class RFCClient extends Thread {
         String []temp = ipaddr.split("/");
         for (ClientInfo clientInfo : peerList){
             if(!temp[1].equals(clientInfo.hostName.substring(1)) && portNumber != clientInfo.rfcServerPort) {
+                System.out.println("Hitting");
                 Socket s = new Socket(clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
                 DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
                 InetAddress ip = InetAddress.getLocalHost();

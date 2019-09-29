@@ -1,4 +1,7 @@
+import com.google.gson.Gson;
+
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -71,7 +74,12 @@ public class RFCServer extends Thread {
                 String reqString = dis.readUTF();
                 System.out.println(reqString);
                 String[] reqStringArr = reqString.split("\n");
-                System.out.println(reqStringArr[0]);
+                if(reqStringArr[0].contains("GET RFC-Index")){
+                    System.out.print("Returning this: " + RFCIndexList);
+                    String RFCIndexString = new Gson().toJson(RFCIndexList);
+                    DataOutputStream responseToClient = new DataOutputStream(RFCSocket.getOutputStream());
+                    responseToClient.writeUTF(RFCIndexString);
+                }
             }
 
         } catch (Exception e) {

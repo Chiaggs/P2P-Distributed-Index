@@ -1,2 +1,0 @@
-P2P-DI
-This is a paper regarding P2P-DI
