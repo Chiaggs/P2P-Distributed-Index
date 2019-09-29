@@ -176,7 +176,7 @@ public class RFCClient extends Thread {
                 System.out.println("RFC Index received from Peer is: " + responseMessage);
 
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<RFCIndex>>() {}.getType();
+                Type type = new TypeToken<Set<RFCIndex>>() {}.getType();
                 Set<RFCIndex> rfcIndex = gson.fromJson(responseMessage, type);
                 System.out.println("Converted to List: " + rfcIndex);
 
