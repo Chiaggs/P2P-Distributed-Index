@@ -48,12 +48,14 @@ class RFCIndex {
 }
 
 public class RFCServer extends Thread {
-    LinkedList<RFCIndex> RFCIndexList;
+    //LinkedList<RFCIndex> RFCIndexList;
+    RFCClient client;
     int portNumber;
 
-    RFCServer(int portNumber) {
-        RFCIndexList = new LinkedList<>();
+    RFCServer(int portNumber, RFCClient client) {
+        //RFCIndexList = new LinkedList<>();
         this.portNumber = portNumber;
+        this.client=client;
     }
 
     @Override
@@ -75,8 +77,8 @@ public class RFCServer extends Thread {
                 System.out.println(reqString);
                 String[] reqStringArr = reqString.split("\n");
                 if(reqStringArr[0].contains("GET RFC-Index")){
-                    System.out.print("Returning this: " + RFCIndexList);
-                    String RFCIndexString = new Gson().toJson(RFCIndexList);
+                    System.out.print("Returning this: " + client.RFCIndexList);
+                    String RFCIndexString = new Gson().toJson(client.RFCIndexList);
                     DataOutputStream responseToClient = new DataOutputStream(RFCSocket.getOutputStream());
                     responseToClient.writeUTF(RFCIndexString);
                 }

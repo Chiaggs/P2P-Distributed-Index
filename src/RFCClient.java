@@ -8,12 +8,12 @@ import java.net.Socket;
 import java.util.*;
 
 public class RFCClient extends Thread {
-    static final Integer N = 60;
-    int portNumber;
-    int cookie;
-    static ArrayList<ClientInfo> peerList = new ArrayList<>();
-    static Set<RFCIndex> RFCIndexList = new HashSet<>();
-    static Boolean[] RFCIndexCheck = new Boolean[N];
+    public static final Integer N = 60;
+    public int portNumber;
+    public int cookie;
+    public static ArrayList<ClientInfo> peerList = new ArrayList<>();
+    public static Set<RFCIndex> RFCIndexList = new HashSet<>();
+    public static Boolean[] RFCIndexCheck = new Boolean[N];
 
 
     RFCClient(int portNumber) {
@@ -24,7 +24,7 @@ public class RFCClient extends Thread {
     @Override
     public void run() {
         initializeRFCIndex();
-        RFCServer server = new RFCServer(portNumber);
+        RFCServer server = new RFCServer(portNumber, this);
         server.start();
         Scanner sc = new Scanner(System.in);
         System.out.println("Client has been started");
