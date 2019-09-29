@@ -225,6 +225,7 @@ public class RFCClient extends Thread {
 
             }
         }
+        System.out.print("All RFC's received and stored!");
 
 
     }
