@@ -158,6 +158,7 @@ public class RFCClient extends Thread {
 
         String ipaddr = InetAddress.getLocalHost().toString();
         String []temp = ipaddr.split("/");
+        System.out.print("ABCD");
         for (ClientInfo clientInfo : peerList){
             if(!temp[1].equals(clientInfo.hostName.substring(1)) && portNumber != clientInfo.rfcServerPort) {
                 Socket s = new Socket(clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
@@ -171,7 +172,7 @@ public class RFCClient extends Thread {
                 System.out.println("RFC Query Command successfully sent! : " + requestMessage);
                 DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
                 String responseMessage = inFromPeer.readUTF();
-                System.out.println("Response received from Peer is: " + responseMessage);
+                System.out.println("RFC Index received from Peer is: " + responseMessage);
 
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<RFCIndex>>() {}.getType();
@@ -188,19 +189,19 @@ public class RFCClient extends Thread {
             if(!RFCIndexCheck[i]) {
                 for(RFCIndex index : RFCIndexList) {
                     if(index.RFCNumber == i) {
-
-                       /* Socket s = new Socket(index.clientInfo.hostName.substring(1), clientInfo.rfcServerPort);
+                        String []tmpStr = index.hostName.split("/");
+                        Socket s = new Socket(tmpStr[1], Integer.parseInt(tmpStr[2]));
                         DataOutputStream outToPeer = new DataOutputStream(s.getOutputStream());
                         InetAddress ip = InetAddress.getLocalHost();
                         String hostname = ip.getHostName();
-                        String requestMessage = "GET RFC-Index P2P-DI/1.0\n" +
+                        String requestMessage = "GET RFC "+i+ " P2P-DI/1.0\n" +
                                 "Host: "+hostname+"\n" +
                                 "OS: "+System.getProperty("os.name");
                         outToPeer.writeUTF(requestMessage);
                         System.out.println("RFC Query Command successfully sent! : " + requestMessage);
                         DataInputStream inFromPeer = new DataInputStream((s.getInputStream()));
                         String responseMessage = inFromPeer.readUTF();
-                        System.out.println("Response received from Peer is: " + responseMessage);*/
+                        System.out.println("RFC downloaded from Peer is: " + responseMessage);
 
 
                     }
